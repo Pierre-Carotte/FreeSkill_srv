@@ -18,8 +18,8 @@ console.log(https);
 
 
 var server = https.createServer({
-    key: fs.readFileSync('./config/rsa/private.key'),
-    cert: fs.readFileSync('./config/rsa/certificat.crt')
+    key: fs.readFileSync('./config/private.key'),
+    cert: fs.readFileSync('./config/certificat.crt')
 }, app);
 
 //server.listen(port);
