@@ -36,24 +36,3 @@ var AuthController = require('./routes/auth');
 var userApi = require('./routes/user');
 app.use('/auth', AuthController);
 app.use('/user', userApi);
-
-
-/*
-var fs = require('fs');
-var https = require('https');
-var express = require('express');
-var app = express();
-var db = require('./db');
-
-https.createServer({
-    key: fs.readFileSync('newkey.pem'),
-    cert: fs.readFileSync('cert.pem')
-}, app).listen(443);
-
-var UserController = require('./user/UserController');
-app.use('/users', UserController);
-
-var AuthController = require('./auth/AuthController');
-app.use('/auth', AuthController);
-module.exports = app;
-*/
