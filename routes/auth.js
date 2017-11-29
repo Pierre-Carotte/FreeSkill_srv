@@ -12,8 +12,8 @@ router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json());
 console.log(bodyParser.json());
 router.use(function (req, res, next) {
-    console.log(req);
-    console.log('Time:', Date.now());
+    //console.log(req);
+   // console.log('Time:', Date.now());
     next();
 });
 
@@ -21,11 +21,11 @@ router.use(function (req, res, next) {
     console.log(req.body);
     res.status(200).send({ auth: true, token: "ok" });
 });
-
+*/
 router.get('/salut', function(req, res) {
     console.log(req.body);
     res.status(200).send("saalut");
-});*/
+});
 var connection = require('../api/auth/connection');
 router.use('/', connection);
 
