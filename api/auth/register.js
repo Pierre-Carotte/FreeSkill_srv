@@ -8,17 +8,6 @@ email
 password
 gps
  */
-/*
-   console.log(req.body);
-  var hashedPassword = bcrypt.hashSync(req.body.password, 8);
-
-  User.create({
-    name : req.body.name,
-    email : req.body.email,
-    password : hashedPassword
-  },
-
- */
 
 /*
 Middleware to test params in the body:
