@@ -3,6 +3,7 @@ var bodyParser = require('body-parser');
 var http = require('http');
 var https = require('https');
 var fs = require('fs');
+var utils = require('./utils/utilsFunctions');
 var app = express();
 
 /**
@@ -21,7 +22,7 @@ var server = https.createServer({
     cert: fs.readFileSync('./config/certificat.crt')
 }, app);
 
-//server.listen(port);
+server.listen(port);
 var serverHttp = http.createServer(app);
 
 serverHttp.listen(80);
