@@ -11,7 +11,6 @@ var app = express();
 
 var port = '443';
 
-console.log(https);
 /**
  * Create HTTPs server.
  */
@@ -23,11 +22,11 @@ var server = https.createServer({
 }, app);
 
 //server.listen(port);
-//var server = http.createServer(app);
+var serverHttp = http.createServer(app);
 
-server.listen(port);
+serverHttp.listen(80);
 
-app.get('/test', function(req, res){
+app.get("/", function(req, res){
     console.log("test");
     res.send('test');
 });
