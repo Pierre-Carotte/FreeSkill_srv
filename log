@@ -1,0 +1,132 @@
+test
+result querydb
+result querydb
+Query {
+  domain: null,
+  _events: 
+   { error: [Function],
+     packet: [Function],
+     end: [Function],
+     timeout: [Function],
+     'start-tls': [Function] },
+  _eventsCount: 5,
+  _maxListeners: undefined,
+  _callback: [Function],
+  _callSite: Error
+    at Protocol._enqueue (/home/sofiane_atrari/FreeSkill_srv/node_modules/mysql/lib/protocol/Protocol.js:145:48)
+    at Connection.query (/home/sofiane_atrari/FreeSkill_srv/node_modules/mysql/lib/Connection.js:208:25)
+    at Handshake._callback (/home/sofiane_atrari/FreeSkill_srv/db/queryDB.js:5:20)
+    at Handshake.Sequence.end (/home/sofiane_atrari/FreeSkill_srv/node_modules/mysql/lib/protocol/sequences/Sequence.js:88:24)
+    at Handshake.Sequence.OkPacket (/home/sofiane_atrari/FreeSkill_srv/node_modules/mysql/lib/protocol/sequences/Sequence.js:97:8)
+    at Protocol._parsePacket (/home/sofiane_atrari/FreeSkill_srv/node_modules/mysql/lib/protocol/Protocol.js:279:23)
+    at Parser.write (/home/sofiane_atrari/FreeSkill_srv/node_modules/mysql/lib/protocol/Parser.js:76:12)
+    at Protocol.write (/home/sofiane_atrari/FreeSkill_srv/node_modules/mysql/lib/protocol/Protocol.js:39:16)
+    at Socket.<anonymous> (/home/sofiane_atrari/FreeSkill_srv/node_modules/mysql/lib/Connection.js:103:28)
+    at emitOne (events.js:116:13),
+  _ended: false,
+  _timeout: undefined,
+  _idleNext: null,
+  _idlePrev: null,
+  _idleStart: null,
+  _idleTimeout: -1,
+  _repeat: null,
+  sql: 'SELECT pwd FROM freeskill.users WHERE email = \'sofiane.atrari@isen.yncrea.fr\';',
+  values: undefined,
+  typeCast: true,
+  nestTables: false,
+  _resultSet: null,
+  _results: [],
+  _fields: [],
+  _index: 0,
+  _loadError: null,
+  _connection: 
+   Connection {
+     domain: null,
+     _events: {},
+     _eventsCount: 0,
+     _maxListeners: undefined,
+     config: 
+      ConnectionConfig {
+        host: '127.0.0.1',
+        port: 3306,
+        localAddress: undefined,
+        socketPath: undefined,
+        user: 'nodejs',
+        password: 'nodejs-isen-lille',
+        database: 'freeskill',
+        connectTimeout: 10000,
+        insecureAuth: false,
+        supportBigNumbers: false,
+        bigNumberStrings: false,
+        dateStrings: false,
+        debug: undefined,
+        trace: true,
+        stringifyObjects: false,
+        timezone: 'local',
+        flags: '',
+        queryFormat: undefined,
+        pool: undefined,
+        ssl: false,
+        multipleStatements: false,
+        typeCast: true,
+        maxPacketSize: 0,
+        charsetNumber: 33,
+        clientFlags: 455631,
+        protocol41: true },
+     _socket: 
+      Socket {
+        connecting: false,
+        _hadError: false,
+        _handle: [Object],
+        _parent: null,
+        _host: null,
+        _readableState: [Object],
+        readable: true,
+        domain: null,
+        _events: [Object],
+        _eventsCount: 6,
+        _maxListeners: undefined,
+        _writableState: [Object],
+        writable: true,
+        allowHalfOpen: false,
+        _bytesDispatched: 74,
+        _sockname: null,
+        _pendingData: null,
+        _pendingEncoding: '',
+        server: null,
+        _server: null,
+        _idleTimeout: -1,
+        _idleNext: null,
+        _idlePrev: null,
+        _idleStart: 6913,
+        _destroyed: false,
+        read: [Function],
+        _consuming: true,
+        [Symbol(asyncId)]: 29,
+        [Symbol(bytesRead)]: 0,
+        [Symbol(asyncId)]: 33,
+        [Symbol(triggerAsyncId)]: 21 },
+     _protocol: 
+      Protocol {
+        domain: null,
+        _events: [Object],
+        _eventsCount: 6,
+        _maxListeners: undefined,
+        readable: true,
+        writable: true,
+        _config: [Object],
+        _connection: [Circular],
+        _callback: null,
+        _fatalError: null,
+        _quitSequence: null,
+        _handshake: true,
+        _handshaked: true,
+        _ended: false,
+        _destroyed: false,
+        _queue: [Array],
+        _handshakeInitializationPacket: [Object],
+        _parser: [Object] },
+     _connectCalled: true,
+     state: 'authenticated',
+     threadId: 123 } }
+3100486406b39efc3f3d3565bc97cc3b9e2d7b6e3427b194f4442ef4beb05b41
