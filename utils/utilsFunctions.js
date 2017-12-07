@@ -23,7 +23,6 @@ var utils = (function(){
     utils.prototype.testParams = function(params, paramsTest){
         for( param of paramsTest){
             if(!(param in params)){
-                console.log(param);
                 return param;
             }
         }

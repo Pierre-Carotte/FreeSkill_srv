@@ -13,6 +13,12 @@
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.16.1",
     "express": "^4.14.1",
-    "jsonwebtoken": "^8.1.0"
+    "jade": "^1.11.0",
+    "jsonwebtoken": "^8.1.0",
+    "mariadb": "0.0.2-security",
+    "mysql": "^2.15.0",
+    "node-mariadb": "^0.1.1",
+    "sha256": "^0.2.0",
+    "sync-mysql": "^3.0.1"
   }
 }

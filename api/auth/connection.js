@@ -1,34 +1,47 @@
 var express = require('express');
+var sha256 = require('sha256')
 var WebToken = require('../../utils/webToken');
 var utils = require('../../utils/utilsFunctions');
+var BDDConnection = require('../../db/auth/BDDConnection');
 var router = express.Router();
+var dbConnection = new BDDConnection();
+
 
 //var parmasRegister = ['email', 'password', 'gps'];
 var parmasRegister = ['email', 'password'];
-router.use((req, res, next) => {
+router.use(function(req, res, next){
     var test = new utils();
-    console.log(req.query);
-var verify = test.testParams(req.query, parmasRegister);
-if(verify !== true){
-    res.send('error:register' + verify, 400);
-    return false;
-}
+// Test si on a tous les params
+    var verify = test.testParams(req.query, parmasRegister);
+    if(verify !== true ){
+        res.status(200).json({success: false, message: 'error:register' + verify});
+        return false;
+    }
+//test if email known
+    if(!dbConnection.testLogin(req.query.email) || (!test.verifyMail(req.query.email))){
+        res.status(200).json({success: false, message: 'error: invalid mail'});
+        return false;
+    }
 
-if(!test.verifyMail(req.query.email)){
-    res.send('error: invalid mail', 400);
-    return false;
-}
-//test if email is correct
-next();
+    if(!dbConnection.testPassword(req.query.email, sha256(req.query.password))){
+        res.status(200).json({success: false, message: 'error: bad password'});
+    }
+    dbConnection.testPassword(req.query.email, sha256(req.query.password));
+    next();
 });
 
 
-/* GET users listing. */
-router.get('/connection', function(req, res, next) {
+/* GET acces token */
+router.get('/', function(req, res, next) {
+    userID = dbConnection.getUserID(req.query.email);
     var jwt = new WebToken();
-    //res.send(jwt.createToken("dsfsdf"));
-    console.log(jwt.createToken("dsfsdf"));
-    res.json({success: true, message: jwt.createToken("dsfsdf")});
+    var token = jwt.createToken({ idUser: userID, email: req.query.email});
+    res.json({success: true, message: token});
+    next();
+});
+
+router.use(function(req, res, next){
+    console.log("log");
 });
 
 module.exports = router;

@@ -13,28 +13,29 @@ gps
 
 var parmasRegister = ['firstname', 'name', 'email', 'password', 'gps'];
 router.use((req, res, next) => {
+    console.log("register test");
     var test = new utils();
-var verify = test.testParams(req.body, parmasRegister);
-if(verify !== true){
-    res.send('error:register' + verify, 400);
-    return false;
-}
+    var verify = test.testParams(req.body, parmasRegister);
+    if(verify !== true){
+        res.status.send('error:register' + verify);
+        return false;
+    }
 
-if(!test.verifyMail(req.body.email)){
-    res.send('error: invalid mail', 400);
-    return false;
-}
-//test if email is correct
-next();
+    if(!test.verifyMail(req.body.email)){
+        res.status(400).send('error: invalid mail');
+        return false;
+    }
+    //test if email is correct
+    next();
 });
 
 /*
 Request register
  */
-router.post('/register', function(req, res, next) {
+router.post('/', function(req, res, next) {
     // var hashedPassword = bcrypt.hashSync(req.body.password, 8);
     console.log("register");
-    res.send('register');
+    res.status(200).send('register');
 });
 
 module.exports = router;
