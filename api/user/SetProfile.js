@@ -4,55 +4,111 @@ var WebToken = require('../../utils/webToken');
 var GetProfile = require('../../db/user/BDDGetProfile');
 var SetProfile = require('../../db/user/BDDSetProfile');
 var GetTags = require('../../db/user/BDDGetTags');
+var AddNewTagInDB = require('../../db/user/BDDAddTag');
 var jwt = new WebToken();
 
-router.use((req, res, next) => {
-    var token = req.headers['x-access-token'];
-if(token == undefined){
-    res.status(200).json({success: false, message: 'error: Missing token'});
-}
-try{
-    console.log(jwt.verify(token));
-}catch(err) {
-    res.status(200).json({success: false, message: 'error: bad token'});
-}
-next();
-});
-
+//Will update the DB by merging a sent JSON with the corresponding profile that is stored in the DB.
 function mergeProfile(req,userData){
-    console.log("Requete profil: "+ req);
-    console.log("profil: "+ userData);
+
     var profileSetter = new SetProfile();
+    var tagGetter = new GetTags();
+    var tagAdder = new AddNewTagInDB();
+
     for (key in req) {
         if (req[key]!=userData[key]){
+            //If the the Key is a tag Share or a tag Discover,
             if (key == "tags_share" || key == "tags_discover"){
-                for (tag in req[key]){
-                    console.log(req[key][tag]);
-                    if (JSON.stringify(req[key][tag]) == JSON.stringify(userData[key][tag])){
-                        console.log("tag égal " + req[key][tag]);
-                    } else {
-                        console.log("tag inégal" + req[key][tag] +" "+ userData[key][tag]);
+                //!\\ tags_share and tags_discover are differenciated by the variable key //!\\
+                console.log("The "+key+" table will we updated according to this tab: ");
+                tagsToEdit = tagsEditor(req[key],userData[key]);
+                for (tag in tagsToEdit){
+                    if ((parseInt(tag)%2)==0){
+                        //json = JSON.parse(tagsToEdit[tag]);
+                        if (tagsToEdit[parseInt(tag)+1]=="ADD"){
+                            //Need to add the tag
+                            //Check if tag is in DB
+                            tagIsInTagsTable = tagGetter.getTagByName(tagsToEdit[tag].tag.toUpperCase());
+                            if (tagIsInTagsTable == undefined){
+                                //if not add it
+                                tagAdder.addNewTagInDB(tagsToEdit[tag].tag);
+                                //And get its new ID
+                                concernedTag = tagGetter.getTagByName(tagsToEdit[tag].tag);
+                                //Add the tag in the table:
+                                profileSetter.setTag(userData.id,key,concernedTag.id,"ADD");
+                            }else{
+                                concernedTag = tagGetter.getTagsInKey(userData.id,tagIsInTagsTable.id,key);
+                                //Add the tag in tag_key:
+                                if (concernedTag == undefined) {
+                                    profileSetter.setTag(userData.id, key, tagIsInTagsTable.id, "ADD");
+                                }
+                            }
+                        }else if (tagsToEdit[parseInt(tag)+1]=="DEL"){
+                            //Delete a tag
+                            profileSetter.setTag(userData.id,key,tagsToEdit[tag].id,"DEL");
+                        }
                     }
                 }
-                if (JSON.stringify(req[key]) === JSON.stringify(userData[key])) {
-                    console.log("egalité parfaite entre les tags");
-                } else {
-                    console.log("un tag a changé, mais la requête n'est pas écrite");
-                }
             } else {
-                console.log("Vous avez changé le champ " + key + " " + req[key] + " ///// " + userData[key]);
+                //Update the user profile's concerned column
                 profileSetter.setProfile(userData.email,key,req[key]);
-                //UPDATE table_name SET column1 = value1, column2 = value2 WHERE condition;
+                console.log("USER "+ userData.id +"UPDATED " + key + " FROM " + userData[key] + " TO " + req[key]);
             }
         }
     }
+}
+
+//tagsEditior returns a Tab like: [{ id='12', tag='fooTag'},1,{ id='12', tag='fooTag'},-1,...]
+//fooTag is followed by 1 that means it has to be added in tagshare or tagdiscover.
+//fooTag is followed by -1 that means it has to be deleted in tagshare or tagdiscover.
+function tagsEditor(req,userData){
+    var tagsToEdit=[];
+
+    //First, analyse the request.
+    for (var tagreq in req){
+        tagDestiny = parseInt(findTag(req[tagreq],userData)^(1));
+        if (tagDestiny!=0){
+            tagsToEdit.push(req[tagreq]);
+            tagsToEdit.push(genADDorDEL(tagDestiny));
+        }
+    }
+    //Then, analyse the user tags
+    for (var taguserData in userData){
+        tagDestiny = parseInt(findTag(userData[taguserData],req))-1;
+        if (tagDestiny!=0){
+            tagsToEdit.push(userData[taguserData]);
+            tagsToEdit.push(genADDorDEL(tagDestiny));
+        }
+    }
+
+    console.log(tagsToEdit);
+    return tagsToEdit;
+}
+
+function genADDorDEL (destiny){
+    if (destiny==1){
+        return "ADD"
+    }else if (destiny==-1){
+        return "DEL"
+    }
+}
+
+//Checks if a tag written in JSON is present in a JSON object.
+function findTag(tag,object){
+    found = 0;
+    for (var element in object) {
+        //Check by upperCasing the tags names.
+        if (tag.tag.toUpperCase() == object[element].tag.toUpperCase()){
+           found = 1;
+        }
+    }
+    return parseInt(found);
 }
 
 router.put('/', function(req, res, next) {
     var profile = new GetProfile();
     var tags = new GetTags();
     console.log(jwt.decode(req.headers['x-access-token']));
-    userData = profile.getProfile(jwt.decode(req.headers['x-access-token']).email);
+    userData = profile.getPersonalProfile(jwt.decode(req.headers['x-access-token']).email);
     tagShare = tags.getTagsShare(userData[0].id);
     tagDiscover = tags.getTagsDiscover(userData[0].id);
     userData[0]["tags_share"] = tagShare;

@@ -4,8 +4,14 @@ var BDDGetTags = (function(){
     var BDDGetTags = function(){
     };
 
-    BDDGetTags.prototype.getTag = function(id_tag){
+    BDDGetTags.prototype.getTagById = function(id_tag){
         var sql = "SELECT * FROM freeskill.tags WHERE id = '"+ id_tag +"';";
+        var reqTag = queryDB(sql);
+        return reqTag[0];
+    }
+
+    BDDGetTags.prototype.getTagByName = function(tag){
+        var sql = "SELECT id,UPPER(tag) as tag FROM freeskill.tags WHERE tag = '"+ tag +"';";
         var reqTag = queryDB(sql);
         return reqTag[0];
     }
@@ -13,24 +19,43 @@ var BDDGetTags = (function(){
     BDDGetTags.prototype.getTags = function(tags){
         var tagsTab=[];
         for (id of tags) {
-            tagsTab.push(this.getTag(id.id_tag));
-            console.log(id);
+            tagName = this.getTagById(id.id_tag);
+            tagsTab.push(tagName.tag);
         }
         return tagsTab;
     }
 
     BDDGetTags.prototype.getTagsShare = function(id){
-        var sql = "SELECT * FROM freeskill.tags_share WHERE id_user = '"+ id +"';";
+        var sql = "SELECT id_tag FROM freeskill.tags_share WHERE id_user = '"+ id +"';";
         var reqTag = queryDB(sql);
-        console.log(reqTag);
         return this.getTags(reqTag);
     }
 
     BDDGetTags.prototype.getTagsDiscover = function(id){
-        var sql = "SELECT * FROM freeskill.tags_discover WHERE id_user = '"+ id +"';";
+        var sql = "SELECT id_tag FROM freeskill.tags_discover WHERE id_user = '"+ id +"';";
         var reqTag = queryDB(sql);
-        console.log(reqTag);
+        //var reqTagName = queryDB(sql);
         return this.getTags(reqTag);
+    }
+
+    BDDGetTags.prototype.getTagShare = function(id,idtag){
+        var sql = "SELECT id_user,UPPER(id_tag) as tag FROM freeskill.tags_share WHERE id_user="+id+" AND id_tag = '"+ idtag +"';";
+        var reqTag = queryDB(sql);
+        return this.getTags(reqTag);
+    }
+
+    BDDGetTags.prototype.getTagDiscover = function(id,idtag){
+        var sql = "SELECT id_user,UPPER(id_tag) as tag FROM freeskill.tags_discover WHERE id_user="+id+" AND id_tag = '"+ idtag +"';";
+        var reqTag = queryDB(sql);
+        return this.getTags(reqTag);
+    }
+
+    BDDGetTags.prototype.getTagsInKey = function(id,tag,key){
+        if (key=="tags_share"){
+            return this.getTagShare(id,tag);
+        } else if (key=="tags_share"){
+            return this.getTagDiscover(id,tag);
+        }
     }
 
     return BDDGetTags;

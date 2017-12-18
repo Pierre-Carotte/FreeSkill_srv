@@ -3,6 +3,23 @@ var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
 
+/*
+var WebToken = require('../utils/webToken');
+var jwt = new WebToken();
+router.use((req, res, next) => {
+    var token = req.headers['x-access-token'];
+if(token == undefined){
+    res.status(200).json({success: false, message: 'error: Missing token'});
+}
+try{
+    console.log(jwt.verify(token));
+}catch(err) {
+    res.status(200).json({success: false, message: 'error: bad token'});
+}
+next();
+});*/
+
+
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json());
 
@@ -10,29 +27,22 @@ router.use(function (req, res, next) {
     next();
 });
 
-var searchProfiles = require('../api/user/searchProfiles');
-router.use('/searchProfiles', searchProfiles);
+var SearchProfiles = require('../api/user/SearchProfiles');
+router.use('/searchProfiles', SearchProfiles);
 
-var chatList = require('../api/user/chatList');
-router.use('/chatList', chatList);
+var GetMessages = require('../api/user/GetMessages');
+router.use('/GetMessages', GetMessages);
 
-var getMessages = require('../api/user/getMessages');
-router.use('/getMessages', getMessages);
+var SendMessage = require('../api/user/SendMessage');
+router.use('/SendMessage', SendMessage);
 
-var newMeet = require('../api/user/newMeet');
-router.use('/newMeet', newMeet);
+var SetProfile = require('../api/user/SetProfile');
+router.use('/SetProfile', SetProfile);
 
-var Marking = require('../api/user/Marking');
-router.use('/Marking', Marking);
+var GetProfile = require('../api/user/GetProfile');
+router.use('/GetProfile', GetProfile);
 
-//var GetMark = require('../api/user/GetMark');
-//router.use('/GetMark', GetMark);
-
-var GetUserParams = require('../api/user/GetUserParams');
-router.use('/GetUserParams', GetUserParams);
-
-var SetUserParams = require('../api/user/SetUserParams');
-router.use('/SetUserParams', SetUserParams);
-
+var GetImage = require('../api/user/GetImage');
+router.use('/GetImage', GetImage);
 
 module.exports = router;

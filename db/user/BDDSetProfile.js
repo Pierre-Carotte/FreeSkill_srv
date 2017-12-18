@@ -5,10 +5,21 @@ var BDDGetProfile = (function(){
     };
 
     BDDGetProfile.prototype.setProfile = function(login,col,val){
-        //UPDATE table_name SET column1 = value1, column2 = value2 WHERE condition;
         sql = "UPDATE freeskill.users SET "+col+" = '"+val+"' WHERE email = '"+ login +"';";
         res = queryDB(sql);
         return res;
+    }
+
+    BDDGetProfile.prototype.setTag = function(login,table,idTag,destiny){
+        if (destiny=="ADD"){
+            sql = "INSERT INTO freeskill."+table+" (id_tag,id_user) VALUES ("+idTag+","+login+");";
+            console.log(sql);
+        } else if (destiny=="DEL"){
+            sql = "DELETE FROM freeskill."+table+" WHERE id_tag="+idTag+" AND id_user="+login+";";
+            console.log(sql);
+        }
+        res = queryDB(sql);
+        //return res;
     }
 
     return BDDGetProfile;
