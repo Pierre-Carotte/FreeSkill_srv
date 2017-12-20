@@ -11,7 +11,7 @@ var BDDGetTags = (function(){
     }
 
     BDDGetTags.prototype.getTagByName = function(tag){
-        var sql = "SELECT id,UPPER(tag) as tag FROM freeskill.tags WHERE tag = '"+ tag +"';";
+        var sql = "SELECT id,UPPER(tag) as tag FROM freeskill.tags WHERE UPPER(tag) = '"+ tag +"';";
         var reqTag = queryDB(sql);
         return reqTag[0];
     }
@@ -40,20 +40,21 @@ var BDDGetTags = (function(){
 
     BDDGetTags.prototype.getTagShare = function(id,idtag){
         var sql = "SELECT id_user,UPPER(id_tag) as tag FROM freeskill.tags_share WHERE id_user="+id+" AND id_tag = '"+ idtag +"';";
+        var sql = "SELECT id_user,UPPER(id_tag) as tag FROM freeskill.tags_share WHERE id_user="+id+" AND id_tag = '"+ idtag +"';";
         var reqTag = queryDB(sql);
-        return this.getTags(reqTag);
+        return this.getTagById(reqTag[0].tag);
     }
 
     BDDGetTags.prototype.getTagDiscover = function(id,idtag){
         var sql = "SELECT id_user,UPPER(id_tag) as tag FROM freeskill.tags_discover WHERE id_user="+id+" AND id_tag = '"+ idtag +"';";
         var reqTag = queryDB(sql);
-        return this.getTags(reqTag);
+        return this.getTagById(reqTag[0].tag);
     }
 
-    BDDGetTags.prototype.getTagsInKey = function(id,tag,key){
+    BDDGetTags.prototype.getTagInKey = function(id,tag,key){
         if (key=="tags_share"){
             return this.getTagShare(id,tag);
-        } else if (key=="tags_share"){
+        } else if (key=="tags_discover"){
             return this.getTagDiscover(id,tag);
         }
     }

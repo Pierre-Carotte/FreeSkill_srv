@@ -23,28 +23,30 @@ function mergeProfile(req,userData){
                 tagsToEdit = tagsEditor(req[key],userData[key]);
                 for (tag in tagsToEdit){
                     if ((parseInt(tag)%2)==0){
-                        //json = JSON.parse(tagsToEdit[tag]);
                         if (tagsToEdit[parseInt(tag)+1]=="ADD"){
                             //Need to add the tag
                             //Check if tag is in DB
-                            tagIsInTagsTable = tagGetter.getTagByName(tagsToEdit[tag].tag.toUpperCase());
+                            tagIsInTagsTable = tagGetter.getTagByName(tagsToEdit[tag].toUpperCase());
                             if (tagIsInTagsTable == undefined){
                                 //if not add it
-                                tagAdder.addNewTagInDB(tagsToEdit[tag].tag);
+                                tagAdder.addNewTagInDB(tagsToEdit[tag]);
                                 //And get its new ID
-                                concernedTag = tagGetter.getTagByName(tagsToEdit[tag].tag);
+                                concernedTag = tagGetter.getTagByName(tagsToEdit[tag]);
                                 //Add the tag in the table:
                                 profileSetter.setTag(userData.id,key,concernedTag.id,"ADD");
                             }else{
-                                concernedTag = tagGetter.getTagsInKey(userData.id,tagIsInTagsTable.id,key);
+                                concernedTag = tagGetter.getTagInKey(userData.id,tagIsInTagsTable.id,key);
                                 //Add the tag in tag_key:
                                 if (concernedTag == undefined) {
                                     profileSetter.setTag(userData.id, key, tagIsInTagsTable.id, "ADD");
+                                } else {
+                                    console.log("Tag "+ concernedTag.tag + " already found in table tags");
                                 }
                             }
                         }else if (tagsToEdit[parseInt(tag)+1]=="DEL"){
                             //Delete a tag
-                            profileSetter.setTag(userData.id,key,tagsToEdit[tag].id,"DEL");
+                            tagToEdit = tagGetter.getTagByName(tagsToEdit[tag]);
+                            profileSetter.setTag(userData.id,key,tagToEdit.id,"DEL");
                         }
                     }
                 }
@@ -64,7 +66,9 @@ function tagsEditor(req,userData){
     var tagsToEdit=[];
 
     //First, analyse the request.
+    //console.log("REQ");
     for (var tagreq in req){
+        //console.log(req[tagreq]);
         tagDestiny = parseInt(findTag(req[tagreq],userData)^(1));
         if (tagDestiny!=0){
             tagsToEdit.push(req[tagreq]);
@@ -72,6 +76,7 @@ function tagsEditor(req,userData){
         }
     }
     //Then, analyse the user tags
+    //console.log("PROF");
     for (var taguserData in userData){
         tagDestiny = parseInt(findTag(userData[taguserData],req))-1;
         if (tagDestiny!=0){
@@ -95,9 +100,11 @@ function genADDorDEL (destiny){
 //Checks if a tag written in JSON is present in a JSON object.
 function findTag(tag,object){
     found = 0;
+    //console.log("TOFIND: "+tag )
     for (var element in object) {
+        //console.log("object element: "+object[element]);
         //Check by upperCasing the tags names.
-        if (tag.tag.toUpperCase() == object[element].tag.toUpperCase()){
+        if (tag.toUpperCase() == object[element].toUpperCase()){
            found = 1;
         }
     }
