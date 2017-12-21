@@ -24,22 +24,24 @@ var BDDSetJudgement = (function(){
 
     BDDSetJudgement.prototype.getJudgement = function(login,judged){
         var sql = "SELECT * FROM freeskill.judgements WHERE id_user1 = '"+ login +"' AND id_user2 = '"+judged+"';";
-        console.log(sql);
+      // console.log(sql);
         var res = queryDB(sql);
         return res;
     }
 
     BDDSetJudgement.prototype.createJudgement = function(login,judged){
-        if (this.getJudgement(login,judged) == undefined){
-            var sql = "INSERT INTO freeskill.judgements (id_user1,id_user2,meet) VALUES ('"+login+"','"+judged+"','WAIT');";
-            console.log(sql);
-            var res = queryDB(sql);
+        //console.log(this.getJudgement(login,judged));
+        if (this.getJudgement(login,judged).length === 0 ){
+            var sql = 'INSERT INTO freeskill.judgements (id_user1,id_user2,meet) VALUES ( '+login+', '+judged+',"WAIT");';
+            //console.log(sql);
+            var res = queryDB(sql, [login, judged]);
             return res;
         }
     }
 
     BDDSetJudgement.prototype.deletePerishedJudgements = function(){
-        var sql = "DELETE FROM freeskill.judgements WHERE timestamp<DATE_SUB(NOW(), INTERVAL 1 MONTH);";
+        var interval = 0;
+        var sql = "DELETE FROM freeskill.judgements WHERE timestamp<DATE_SUB(NOW(), INTERVAL " + interval + " MONTH);";
         console.log(sql);
         var res = queryDB(sql);
         return res;

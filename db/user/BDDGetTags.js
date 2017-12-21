@@ -5,8 +5,8 @@ var BDDGetTags = (function(){
     };
 
     BDDGetTags.prototype.getTagById = function(id_tag){
-        var sql = "SELECT * FROM freeskill.tags WHERE id = '"+ id_tag +"';";
-        var reqTag = queryDB(sql);
+        var sql = 'SELECT * FROM freeskill.tags WHERE id=?;';
+        var reqTag = connection.query(sql, [id_tag]);
         return reqTag[0];
     }
 
@@ -18,8 +18,10 @@ var BDDGetTags = (function(){
 
     BDDGetTags.prototype.getTags = function(tags){
         var tagsTab=[];
+        //console.log(tags);
         for (id of tags) {
             tagName = this.getTagById(id.id_tag);
+            //console.log(tagName.tag);
             tagsTab.push(tagName.tag);
         }
         return tagsTab;
@@ -32,8 +34,12 @@ var BDDGetTags = (function(){
     }
 
     BDDGetTags.prototype.getTagsDiscover = function(id){
-        var sql = "SELECT id_tag FROM freeskill.tags_discover WHERE id_user = '"+ id +"';";
-        var reqTag = queryDB(sql);
+        var sql = 'SELECT id_tag FROM freeskill.tags_discover WHERE id_user=?;';
+
+        //console.log('test');
+        //console.log(id);
+        var reqTag = connection.query(sql, [id]);
+        //console.log('test2');
         //var reqTagName = queryDB(sql);
         return this.getTags(reqTag);
     }
