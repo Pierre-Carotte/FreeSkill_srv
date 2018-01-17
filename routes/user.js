@@ -3,7 +3,7 @@ var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
 
-/*
+
 var WebToken = require('../utils/webToken');
 var jwt = new WebToken();
 router.use((req, res, next) => {
@@ -17,7 +17,7 @@ try{
     res.status(200).json({success: false, message: 'error: bad token'});
 }
 next();
-});*/
+});
 
 
 router.use(bodyParser.urlencoded({ extended: false }));
@@ -44,5 +44,8 @@ router.use('/GetProfile', GetProfile);
 
 var GetImage = require('../api/user/GetImage');
 router.use('/GetImage', GetImage);
+
+var GetMeets = require('../api/user/GetMeets');
+router.use('/GetMeets', GetMeets);
 
 module.exports = router;
