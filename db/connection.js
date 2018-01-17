@@ -1,5 +1,4 @@
 var Mysql = require('sync-mysql');
-var config = require('../config/dbConfig.js');
-//var con = mysql.createConnection(config);
-//var pool =  mysql.createPool(config);
+var variables = require.main.require('./utils/variables');
+var config = require.main.require(variables.pathModule.dbConfig);
 module.exports = new Mysql(config);

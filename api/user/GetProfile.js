@@ -1,10 +1,11 @@
 var express = require('express');
 var router = express.Router();
-var WebToken = require('../../utils/webToken');
-var GetProfile = require('../../db/user/BDDGetProfile');
-var GetTags = require('../../db/user/BDDGetTags');
+var v = require.main.require('./utils/variables');
+var WebToken = require.main.require(v.pathModule.webToken);
 var jwt = new WebToken();
-
+var GetProfile = require.main.require(v.pathModule.BDDGetProfile);
+var GetTags = require.main.require(v.pathModule.BDDGetTags);
+/* GET profile user. */
 /* GET user profile. */
 router.get('/', function(req, res, next) {
     var profile = new GetProfile();
@@ -38,5 +39,4 @@ function formatProfilePerso(userData,share,discover){
         }
     }
 }
-
 module.exports = router;
