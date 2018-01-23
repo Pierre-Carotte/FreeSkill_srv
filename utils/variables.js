@@ -20,14 +20,17 @@ const variables = {
         //api modules:
         //bdd modules:
         dbConfig : './config/dbConfig.js',
+        BDDRegister: './db/auth/BDDRegister',
         BDDConnection: './db/auth/BDDConnection',
         BDDSearchProfile : './db/user/BDDSearchProfile',
         BDDSetJudgement : './db/user/BDDSetJudgement',
+        BDDLocation : './db/user/BDDLocation',
         BDDMessage : './db/user/BDDMessage',
         BDDGetMatch : './db/user/BDDGetMatch',
         BDDGetProfile : './db/user/BDDGetProfile',
         BDDGetTags : './db/user/BDDGetTags',
         BDDMeets : './db/user/BDDMeets',
+        BDDMark : './db/user/BDDMark',
         //utils modules:
         webToken : (__dirname + '/webToken'),
         utilsFunctions: './utils/utilsFunctions'

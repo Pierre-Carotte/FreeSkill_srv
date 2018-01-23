@@ -2,9 +2,9 @@
   "name": "FreeSkill",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "serveur.js",
   "scripts": {
-    "start": "node app.js",
+    "start": "node serveur.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

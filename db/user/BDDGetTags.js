@@ -65,6 +65,12 @@ var BDDGetTags = (function(){
         }
     }
 
+    BDDGetTags.prototype.getAllTags = function(id,tag,key){
+        var sql = "SELECT tag FROM tags;";
+        var reqTag = queryDB(sql);
+        return reqTag;
+    }
+
     return BDDGetTags;
 })();
 

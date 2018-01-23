@@ -8,15 +8,16 @@ var WebToken = require('../utils/webToken');
 var jwt = new WebToken();
 router.use((req, res, next) => {
     var token = req.headers['x-access-token'];
-if(token == undefined){
-    res.status(200).json({success: false, message: 'error: Missing token'});
-}
-try{
-    console.log(jwt.verify(token));
-}catch(err) {
-    res.status(200).json({success: false, message: 'error: bad token'});
-}
-next();
+    if(token == undefined){
+        res.status(200).json({success: false, message: 'error: Missing token'});
+    }
+    try{
+        jwt.verify(token)
+       // console.log(jwt.verify(token));
+    }catch(err) {
+        res.status(200).json({success: false, message: 'error: bad token'});
+    }
+    next();
 });
 
 
@@ -47,5 +48,17 @@ router.use('/GetImage', GetImage);
 
 var GetMeets = require('../api/user/GetMeets');
 router.use('/GetMeets', GetMeets);
+
+var GetMarks = require('../api/user/GetMarks');
+router.use('/GetMarks', GetMarks);
+
+var GetTagDico = require('../api/user/GetTagDico');
+router.use('/GetTagDico', GetTagDico);
+
+var SetLocation = require('../api/user/SetLocation');
+router.use('/SetLocation', SetLocation);
+
+var GetLocation = require('../api/user/GetLocation');
+router.use('/GetLocation', GetLocation);
 
 module.exports = router;

@@ -54,8 +54,8 @@ var BDDSetJudgement = (function(){
         return res;
     }
 
-    BDDSetJudgement.prototype.autorizeGetImage = function(user1, user2){
-        console.log(connection.call('autorize_get_image', [user1, user2]).length);
+    BDDSetJudgement.prototype.isAuthorise = function(user1, user2){
+        //console.log(connection.call('autorize_get_image', [user1, user2]).length);
         return connection.call('autorize_get_image', [user1, user2]).length > 1 ? true : false;
     }
     return BDDSetJudgement;

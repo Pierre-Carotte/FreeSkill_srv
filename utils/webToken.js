@@ -6,7 +6,7 @@ var WebToken =  (function(){
 
     WebToken.prototype.createToken = function(id){
         var token = jwt.sign(id, config.secret, {
-            expiresIn: 86400 // expires in 24 hours
+            expiresIn: 31536000 // expires in 24 hours
         });
         return token;
     }

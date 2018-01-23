@@ -5,7 +5,7 @@ var https = require('https');
 var fs = require('fs');
 var utils = require('./utils/utilsFunctions');
 var app = express();
-var queryDB = require('./db/queryDB');
+
 /**
  * Get port from environment and store in Express.
  */
@@ -28,10 +28,13 @@ var serverHttp = http.createServer(app);
 
 serverHttp.listen(80);
 */
+var queryDB = require('./db/queryDB');
 app.get("/", function(req, res){
 //sql = "SELECT pwd FROM freeskill.users WHERE email = 'sofiane.atrari@isen.yncrea.fr';";
 //result = queryDB(sql);
-    res.status(200).send("qsdqds");
+    console.log(require.main);
+    console.log(__filename);
+    res.status(200).send("NODE_PATH");
 });
 
 var AuthController = require('./routes/auth');

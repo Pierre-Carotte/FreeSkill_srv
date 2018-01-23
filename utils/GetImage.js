@@ -25,7 +25,7 @@ router.get('/:id', function(req, res, next){
     var setJudge = new SetJudgement();
     path = v.pathImg + idUser2 + v.imgExtension;
     if(idUser2 === parseInt(idUser2, 10)){
-        if(setJudge.isAuthorise(decode.idUser, idUser2) && fs.existsSync(path)){
+        if(setJudge.autorizeGetImage(decode.idUser, idUser2) && fs.existsSync(path)){
             res.download(path);
         }
     }
