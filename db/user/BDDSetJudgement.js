@@ -2,6 +2,7 @@ var queryDB = require('../queryDB');
 var connection = require('../connection');
 var BDDSetMatch = require('./BDDSetMatch');
 
+// TO TEST
 var BDDSetJudgement = (function(){
     var BDDSetJudgement = function(){
     };
@@ -23,34 +24,30 @@ var BDDSetJudgement = (function(){
     }
 
     BDDSetJudgement.prototype.getJudgement = function(login,judged){
-        var sql = "SELECT * FROM freeskill.judgements WHERE id_user1 = '"+ login +"' AND id_user2 = '"+judged+"';";
-      // console.log(sql);
-        var res = queryDB(sql);
+        var res = connection.call("getJudgement", [login,judged]);
+        // console.log(res);
         return res;
     }
 
     BDDSetJudgement.prototype.createJudgement = function(login,judged){
         //console.log(this.getJudgement(login,judged));
         if (this.getJudgement(login,judged).length === 0 ){
-            var sql = 'INSERT INTO freeskill.judgements (id_user1,id_user2,meet) VALUES ( '+login+', '+judged+',"WAIT");';
-            //console.log(sql);
-            var res = queryDB(sql, [login, judged]);
+            var res = connection.call("createJudgement", [login,judged]);
+            console.log("Inserted judgement "+login+" to "+judged);
             return res;
         }
     }
 
     BDDSetJudgement.prototype.deletePerishedJudgements = function(){
         var interval = 0;
-        var sql = "DELETE FROM freeskill.judgements WHERE timestamp<DATE_SUB(NOW(), INTERVAL " + interval + " MONTH);";
-        console.log(sql);
-        var res = queryDB(sql);
+        var res = connection.call("deletePerishedJudgements", [interval]);
+        console.log("deleted perished judgements (before "+ interval +" months).");
         return res;
     }
 
     BDDSetJudgement.prototype.deleteJudgement = function(login,judged){
-        var sql = "DELETE FROM freeskill.judgements WHERE id_user1='"+login+"' AND id_user2='"+judged+"';";
-        console.log(sql);
-        var res = queryDB(sql);
+        var res = connection.call("deleteJudgement", [login,judged]);
+        console.log("Deleted judgement "+ login +" to "+ judged);
         return res;
     }
 

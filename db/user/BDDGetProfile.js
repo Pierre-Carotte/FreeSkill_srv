@@ -5,15 +5,15 @@ var BDDGetProfile = (function(){
     };
 
     BDDGetProfile.prototype.getPersonalProfile = function(login){
-        sql = 'SELECT * FROM freeskill.users WHERE email = ?;';
-        reqProfile = connection.query(sql, [login]);
+        reqProfile = connection.call("getPersonalProfile", [login]);
+        reqProfile.pop();
         return reqProfile;
     }
 
     BDDGetProfile.prototype.getUserProfile = function(id){
-        sql = 'SELECT id,first_name,is_assos,average_mark,description FROM freeskill.users WHERE id = ?;';
-        reqProfile = connection.getRecord("freeskill.users", id);
-        return reqProfile;
+        reqProfile = connection.call("getUserProfile", [id]);
+        reqProfile.pop();
+        return reqProfile[0];
     }
 
     return BDDGetProfile;

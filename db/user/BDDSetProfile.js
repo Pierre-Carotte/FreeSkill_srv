@@ -1,28 +1,26 @@
 var queryDB = require('../queryDB');
 var connection = require('../connection');
-var BDDGetProfile = (function(){
-    var BDDGetProfile = function(){
+var BDDSetProfile = (function(){
+    var BDDSetProfile = function(){
     };
 
-    BDDGetProfile.prototype.setProfile = function(login,col,val){
-        sql = "UPDATE freeskill.users SET "+col+" = '"+val+"' WHERE email = '"+ login +"';";
-        res = queryDB(sql);
+    BDDSetProfile.prototype.setProfile = function(login,col,val){
+        var res = connection.call("setProfile", [col,val,login]);
+        console.log("Setted Profile");
         return res;
     }
 
-    BDDGetProfile.prototype.setTag = function(login,table,idTag,destiny){
+    BDDSetProfile.prototype.setTag = function(login,table,idTag,destiny){
         if (destiny=="ADD"){
-            sql = "INSERT INTO freeskill."+table+" (id_tag,id_user) VALUES ("+idTag+","+login+");";
-            console.log(sql);
+            var reqTag = connection.call("addTag", [table,idTag,login]);
+            return reqTag;
         } else if (destiny=="DEL"){
-            sql = "DELETE FROM freeskill."+table+" WHERE id_tag="+idTag+" AND id_user="+login+";";
-            console.log(sql);
+            var reqTag = connection.call("deleteTag", [table,idTag,login]);
+            return reqTag;
         }
-        res = queryDB(sql);
-        //return res;
     }
 
-    return BDDGetProfile;
+    return BDDSetProfile;
 })();
 
-module.exports = BDDGetProfile;
+module.exports = BDDSetProfile;
