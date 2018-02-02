@@ -1,0 +1,45 @@
+var express = require('express');
+var router = express.Router();
+var v = require.main.require('./utils/variables');
+var WebToken = require.main.require(v.pathModule.webToken);
+var jwt = new WebToken();
+var GetProfile = require.main.require(v.pathModule.BDDGetProfile);
+var GetTags = require.main.require(v.pathModule.BDDGetTags);
+/* GET profile user. */
+/* GET user profile. */
+router.get('/', function(req, res, next) {
+    console.log("GetProfile");
+    var profile = new GetProfile();
+    var tags = new GetTags();
+    console.log(jwt.decode(req.headers[v.keyAcessToken]));
+    console.log(jwt.decode(req.headers[v.keyAcessToken]).email);
+    userData = profile.getPersonalProfile(jwt.decode(req.headers[v.keyAcessToken]).email);
+    tagShare = tags.getTagsShare(userData[0].id);
+    tagDiscover = tags.getTagsDiscover(userData[0].id);
+    //res.send(formatProfilePerso(userData[0],tagShare,tagDiscover));
+    res.status(200).json({success: true, message:  formatProfilePerso(userData[0],tagShare,tagDiscover)});
+    next();
+});
+
+function formatProfilePerso(userData,share,discover){
+    return {
+        profile:{
+            "first_name": userData.first_name,
+            "last_name": userData.last_name,
+            "email": userData.email,
+            "description": userData.description,
+            "average_mark": userData.average_mark,
+            "tags_share": share,
+            "tags_discover": discover
+        },
+        settings:{
+            "perimeter": userData.perimeter,
+            "notif_message": userData.notif_message,
+            "notif_reminder": userData.notif_reminder,
+            "notif_mark": userData.notif_mark,
+            "notif_meeting": userData.notif_meeting,
+            "notif_match": userData.notif_match
+        }
+    }
+}
+module.exports = router;

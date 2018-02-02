@@ -5,6 +5,7 @@ var BDDSetProfile = (function(){
     };
 
     BDDSetProfile.prototype.setProfile = function(login,col,val){
+        console.log(col);
         var res = connection.call("setProfile", [col,val,login]);
         console.log("Setted Profile");
         return res;
