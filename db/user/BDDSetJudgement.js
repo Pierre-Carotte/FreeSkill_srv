@@ -7,31 +7,46 @@ var BDDSetJudgement = (function(){
     var BDDSetJudgement = function(){
     };
 
-    BDDSetJudgement.prototype.modifyJudgement = function(login,judged,meet){
+    BDDSetJudgement.prototype.setJudgement = function(login,judged,meet){
         if (meet == 'MEET'){
+            var mirror = this.getJudgement(judged,login);
             if (this.getJudgement(judged,login)==undefined){
-                var res = this.createJudgement(login,judged);
+                var res = this.modifyJudgement(login,judged,meet);
             }else{
-                var matcher = new BDDSetMatch();
-                this.deleteJudgement(judged,login);
-                matcher.addMatch(login,judged);
-                res="MATCH";
+                if(mirror.meet == 'MEET'){
+                    var matcher = new BDDSetMatch();
+                    this.deleteJudgement(judged,login);
+                    this.deleteJudgement(login,judged);
+                    matcher.addMatch(login,judged);
+                    res="MATCH";
+                } else {
+                    var res = this.modifyJudgement(login,judged,meet);
+                }
             }
         } else {
-            var res = this.createJudgement(login,judged);
+            var res = this.modifyJudgement(login,judged,meet);
         }
         return res;
     }
 
-    BDDSetJudgement.prototype.getJudgement = function(login,judged){
-        var res = connection.call("getJudgement", [login,judged]);
-        // console.log(res);
+    BDDSetJudgement.prototype.modifyJudgement = function(login,judged,meet){
+        var res = connection.call("setJudgement", [login,judged,meet]);
+        console.log("Judgement setted : "+login+" "+meet+" "+judged);
         return res;
     }
 
+
+    BDDSetJudgement.prototype.getJudgement = function(login,judged){
+        var res = connection.call("getJudgement", [login,judged]);
+        res.pop();
+        // console.log(res);
+        return res[0];
+    }
+
     BDDSetJudgement.prototype.createJudgement = function(login,judged){
-        //console.log(this.getJudgement(login,judged));
-        if (this.getJudgement(login,judged).length === 0 ){
+        console.log(this.getJudgement(login,judged));
+
+        if (this.getJudgement(login,judged) == undefined ){
             var res = connection.call("createJudgement", [login,judged]);
             console.log("Inserted judgement "+login+" to "+judged);
             return res;

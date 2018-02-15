@@ -1,0 +1,8 @@
+GetMessageList
+{ friend: 8,
+  name: 'Thomas',
+  matchTime: '2018-02-04T18:11:06.000Z' }
+GetMessageList
+{ friend: 8,
+  name: 'Thomas',
+  matchTime: '2018-02-04T18:11:06.000Z' }

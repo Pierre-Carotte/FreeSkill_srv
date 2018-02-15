@@ -7,12 +7,16 @@ var BDDGetTags = (function(){
     BDDGetTags.prototype.getTagById = function(id_tag){
         //console.log("BDDGetTags.getTagById");
         var reqTag = connection.call("getTagById", [id_tag]);
+        reqTag.pop();
         return reqTag[0];
     }
 
     BDDGetTags.prototype.getTagByName = function(tag){
         //console.log("BDDGetTags.getTagByName");
+        console.log(tag);
         var reqTag = connection.call("getTagByName", [tag]);
+        reqTag.pop();
+        console.log(reqTag);
         return reqTag[0];
     }
 
@@ -40,6 +44,7 @@ var BDDGetTags = (function(){
 
     BDDGetTags.prototype.getTagsDiscover = function(id){
         console.log("BDDGetTags.getTagsDiscover");
+        console.log(id);
         var reqTag = connection.call("getTagsDiscover", [id]);
         reqTag.pop();
         return this.getTags(reqTag);
@@ -48,13 +53,23 @@ var BDDGetTags = (function(){
     BDDGetTags.prototype.getTagShare = function(id,idtag){
         console.log("BDDGetTags.getTagShare");
         var reqTag = connection.call("getTagShare", [id,idtag]);
-        return this.getTagById(reqTag[0].tag);
+        reqTag.pop();
+        if (reqTag[0] == undefined){
+            return null;
+        }else{
+            return this.getTagById(reqTag[0].tag);
+        }
     }
 
     BDDGetTags.prototype.getTagDiscover = function(id,idtag){
         console.log("BDDGetTags.getTagDiscover");
         var reqTag = connection.call("getTagDiscover", [id,idtag]);
-        return this.getTagById(reqTag[0].tag);
+        reqTag.pop();
+        if (reqTag[0] == undefined){
+            return null;
+        }else{
+            return this.getTagById(reqTag[0].tag);
+        }
     }
 
     BDDGetTags.prototype.getTagInKey = function(id,tag,key){

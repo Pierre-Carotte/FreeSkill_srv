@@ -3,7 +3,7 @@ var router = express.Router();
 var v = require.main.require('./utils/variables');
 var WebToken = require.main.require(v.pathModule.webToken);
 var jwt = new WebToken();
-var BDDMeets = require.main.require(v.pathModule.BDDMeets);
+var BDDMeets = require.main.require(v.pathModule.BDDGetMeet);
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {

@@ -3,7 +3,7 @@ var fs = require('fs');
 var router = express.Router();
 var v = require.main.require('./utils/variables');
 var WebToken = require(v.pathModule.webToken);
-var BDDMark = require.main.require(v.pathModule.BDDMark);
+var BDDGetMark = require.main.require(v.pathModule.BDDGetMark);
 var SetJudgement = require.main.require(v.pathModule.BDDSetJudgement);
 var jwt = new WebToken();
 
@@ -11,7 +11,7 @@ var jwt = new WebToken();
 
 router.get('/', function(req, res, next){
     var decode = jwt.decode(req.headers[v.keyAcessToken]);
-    var mark = new BDDMark();
+    var mark = new BDDGetMark();
     var setJudge = new SetJudgement()
     result = mark.getMarks(decode.idUser);
 
@@ -21,7 +21,7 @@ router.get('/', function(req, res, next){
 
 router.get('/:id', function(req, res, next){
     var idUser2 = req.params.id;
-    var mark = new BDDMark();
+    var mark = new BDDGetMark();
     var setJudge = new SetJudgement();
     var decode = jwt.decode(req.headers[v.keyAcessToken]);
     if(!isNaN(idUser2) && setJudge.isAuthorise(decode.idUser, idUser2)){

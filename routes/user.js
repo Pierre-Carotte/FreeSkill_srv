@@ -58,6 +58,15 @@ router.use('/GetMeets', GetMeets);
 var GetMarks = require('../api/user/GetMarks');
 router.use('/GetMarks', GetMarks);
 
+var SetMeet = require('../api/user/SetMeet');
+router.use('/SetMeet', SetMeet);
+
+var SetMark = require('../api/user/SetMark');
+router.use('/SetMark', SetMark);
+
+var SetMessageIsRead = require('../api/user/SetMessageIsRead');
+router.use('/SetMessageIsRead', SetMessageIsRead);
+
 var GetTagDico = require('../api/user/GetTagDico');
 router.use('/GetTagDico', GetTagDico);
 

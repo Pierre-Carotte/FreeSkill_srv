@@ -30,9 +30,7 @@ router.get('/', function(req, res, next) {
         result = result.concat(resultDB);
 
     }
-    for(idJudged of result){
-        setJudgement.createJudgement(idUser, idJudged);
-    }
+
 
     //remove doublons
     var result2 = [];
@@ -44,7 +42,10 @@ router.get('/', function(req, res, next) {
         }
         return elem;
     });
-
+    for(idJudged of result2){
+        console.log(idJudged);
+        setJudgement.createJudgement(idUser, idJudged);
+    }
     var profiles = makeList(idUser, result2);
 
     console.log(result2);

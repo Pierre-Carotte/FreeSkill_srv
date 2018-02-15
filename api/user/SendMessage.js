@@ -21,7 +21,8 @@ router.put('/', function(req, res, next) {
         res.status(200).json({success: false, message: v.messages.noMatchs});
     } else {
         setMessage.setMessage(jwt.decode(req.headers[v.keyAcessToken]).idUser, id_user2,req.query.message);
-        res.status(200).json({success: true, message: v.messages.messageSend});
+        retour =  setMessage.getLastMessage(id_user1,id_user2);
+        res.status(200).json({success: true, message: retour});
     }
 
 });

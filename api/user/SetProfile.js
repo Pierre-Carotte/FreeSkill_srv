@@ -52,8 +52,9 @@ function mergeProfile(req,userData){
                 }
             } else {
                 //Update the user profile's concerned column
+                console.log("USER "+ userData.id +" UPDATED " + key + " FROM " + userData[key] + " TO " + req[key]);
                 profileSetter.setProfile(userData.email,key,req[key]);
-                console.log("USER "+ userData.id +"UPDATED " + key + " FROM " + userData[key] + " TO " + req[key]);
+                console.log("USER "+ userData.id +" UPDATED " + key + " FROM " + userData[key] + " TO " + req[key]);
             }
         }
     }
@@ -105,7 +106,7 @@ function findTag(tag,object){
         //console.log("object element: "+object[element]);
         //Check by upperCasing the tags names.
         if (tag.toUpperCase() == object[element].toUpperCase()){
-           found = 1;
+            found = 1;
         }
     }
     return parseInt(found);
@@ -114,7 +115,7 @@ function findTag(tag,object){
 router.put('/', function(req, res, next) {
     var profile = new GetProfile();
     var tags = new GetTags();
-    console.log(jwt.decode(req.headers['x-access-token']));
+    //console.log(jwt.decode(req.headers['x-access-token']));
     userData = profile.getPersonalProfile(jwt.decode(req.headers['x-access-token']).email);
     tagShare = tags.getTagsShare(userData[0].id);
     tagDiscover = tags.getTagsDiscover(userData[0].id);

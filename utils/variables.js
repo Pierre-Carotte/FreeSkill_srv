@@ -4,15 +4,19 @@ const variables = {
     pathImg : "./img/",
     pathDefautImg : './img/default.png',
     imgExtension : ".png",
+    maxSizeImage : 1000000,
+    mimetype : 'image/png',
     //variables for module connection.js
-    //parmasRegister : ['email', 'password', 'gps'], //TODO add gps during step connection
     parmasRegister : ['email', 'password'],
     // Messages:
     messages : {
-        invalidMail : 'error: invalid mail',
-        badPassword : 'error: bad password',
-        noMatchs : 'error: no match in matches',
-        messageSend : 'message has been sent'
+        invalidMail : 'Error: invalid mail.',
+        badPassword : 'Error: bad password.',
+        noMatchs : 'Error: no match in matches.',
+        noMeet : 'Error: you have no meet to mark.',
+        messageSent : 'Success: your message has been sent.',
+        markSent : 'Success: your mark has been sent.',
+        meetSent : 'Success: your meeting has been sent.'
     },
 
     //paths of all modules
@@ -27,10 +31,13 @@ const variables = {
         BDDLocation : './db/user/BDDLocation',
         BDDMessage : './db/user/BDDMessage',
         BDDGetMatch : './db/user/BDDGetMatch',
+        BDDDelMatch : './db/user/BDDDelMatch',
         BDDGetProfile : './db/user/BDDGetProfile',
         BDDGetTags : './db/user/BDDGetTags',
-        BDDMeets : './db/user/BDDMeets',
-        BDDMark : './db/user/BDDMark',
+        BDDGetMeet : './db/user/BDDGetMeet',
+        BDDSetMeet : './db/user/BDDSetMeet',
+        BDDGetMark : './db/user/BDDGetMark',
+        BDDSetMark : './db/user/BDDSetMark',
         //utils modules:
         webToken : (__dirname + '/webToken'),
         utilsFunctions: './utils/utilsFunctions'
