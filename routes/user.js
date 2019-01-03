@@ -82,4 +82,7 @@ router.use('/DelMatch', DelMatch);
 var SetImage = require('../api/user/SetImage');
 router.use('/SetImage', SetImage);
 
+var SetIDFCM = require('../api/user/SetIDFCM');
+router.use('/SetIDFCM', SetIDFCM);
+
 module.exports = router;
