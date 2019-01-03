@@ -4,7 +4,7 @@ const variables = {
     pathImg : "./img/",
     pathDefautImg : './img/default.png',
     imgExtension : ".png",
-    maxSizeImage : 1000000,
+    maxSizeImage : 100000000,
     mimetype : 'image/png',
     //variables for module connection.js
     parmasRegister : ['email', 'password'],
@@ -38,6 +38,7 @@ const variables = {
         BDDSetMeet : './db/user/BDDSetMeet',
         BDDGetMark : './db/user/BDDGetMark',
         BDDSetMark : './db/user/BDDSetMark',
+        BDDSetIDFCM : './db/user/BDDSetIDFCM',
         //utils modules:
         webToken : (__dirname + '/webToken'),
         utilsFunctions: './utils/utilsFunctions'

@@ -9,6 +9,7 @@ var jwt = new WebToken();
 router.get('/', function(req, res, next) {
     var bddMessage = new GetMessages();
     var decode = jwt.decode(req.headers[v.keyAcessToken]);
+    console.log(decode.idUser);
     var result = bddMessage.getMessageList(decode.idUser);
     res.status(200).json({success: true, message: result});
     //res.status(200).json(jwt.decode(req.headers['x-access-token']));

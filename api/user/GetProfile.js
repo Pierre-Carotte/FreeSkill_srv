@@ -7,6 +7,32 @@ var GetProfile = require.main.require(v.pathModule.BDDGetProfile);
 var GetTags = require.main.require(v.pathModule.BDDGetTags);
 /* GET profile user. */
 /* GET user profile. */
+
+/*var admin = require("firebase-admin");
+
+var serviceAccount = require("../../config/serviceaccount.json");
+
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL: "https://freeskill-e501c.firebaseio.com"
+});
+
+var registrationToken = "40b0caa";
+
+// This registration token comes from the client FCM SDKs.
+
+// See documentation on defining a message payload.
+var message = {
+    data: {
+        score: '850',
+        time: '2:45'
+    },
+    token: registrationToken
+};*/
+
+
+
+
 router.get('/', function(req, res, next) {
     console.log("GetProfile");
     var profile = new GetProfile();
@@ -17,7 +43,18 @@ router.get('/', function(req, res, next) {
     tagShare = tags.getTagsShare(userData[0].id);
     tagDiscover = tags.getTagsDiscover(userData[0].id);
     //res.send(formatProfilePerso(userData[0],tagShare,tagDiscover));
+// Send a message to the device corresponding to the provided
+// registration token.
+/*    admin.messaging().send(message)
+        .then((response) => {
+        // Response is a message ID string.
+        console.log('Successfully sent message:', response);
+})
+.catch((error) => {
+        console.log('Error sending message:', error);
+});*/
     res.status(200).json({success: true, message:  formatProfilePerso(userData[0],tagShare,tagDiscover)});
+
     next();
 });
 

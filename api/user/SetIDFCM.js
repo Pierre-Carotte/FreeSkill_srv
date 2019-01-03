@@ -3,17 +3,16 @@ var router = express.Router();
 var v = require.main.require('./utils/variables')
 var WebToken = require.main.require(v.pathModule.webToken);
 var jwt = new WebToken();
-var SetIsRead = require.main.require(v.pathModule.BDDMessage);
+var SetIDFCM = require.main.require(v.pathModule.BDDSetIDFCM);
 
 /* TODO : changer PUT  serveur et app; msg is read. */
-router.post('/', function(req, res, next) {
-    var setIsRead = new SetIsRead();
+router.put('/', function(req, res, next) {
+    var setIDFCM = new SetIDFCM();
     var id_user1 = jwt.decode(req.headers[v.keyAcessToken]).idUser;
-    var id_user2 = req.query.interlocutor;
-    var id_msg = req.query.idmsg;
-    var read = setIsRead.updateIsRead(id_user1,id_user2,id_msg);
+    var id_fcm = req.query.fcm;
+    var fcmOk = setIDFCM.updateFCM(id_user1,id_fcm);
 
-    res.status(200).json({success: true, message: "is read ok"});
+    res.status(200).json({success: true, message: "fcm ok"});
 });
 
 module.exports = router;

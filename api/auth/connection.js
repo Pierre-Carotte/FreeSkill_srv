@@ -15,7 +15,7 @@ router.use(function(req, res, next){
         res.status(200).json({success: false, message: 'error:register ' + verify});
         return false;
     }
-//test if email known
+//test if email knowns
     if(!dbConnection.testLogin(req.query.email) || (!test.verifyMail(req.query.email))){
         res.status(200).json({success: false, message: v.messages.invalidMail});
         return false;
